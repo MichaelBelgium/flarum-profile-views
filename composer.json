@@ -23,7 +23,12 @@
   },
   "extra": {
     "flarum-extension": {
-      "title": "Profile views"
+      "title": "Profile views",
+      "icon": {
+        "name": "eye",
+        "backgroundColor": "#90C3D4",
+        "color": "#fff"
+      }
     }
   }
 }

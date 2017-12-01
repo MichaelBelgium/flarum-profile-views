@@ -17,11 +17,16 @@ class AddProfileViewHandler
     {
         if($event->isController(ShowUserController::class))
         {
-            /** @var User $profile */
-            $user = $event->data;
+            $id = $event->request->getQueryParams()["id"];
 
-            $user->views++;
-            $user->save();
+            if(!is_numeric($id))
+            {
+                /** @var User $profile */
+                $user = $event->data;
+
+                $user->views++;
+                $user->save();
+            }
         }
     }
 }

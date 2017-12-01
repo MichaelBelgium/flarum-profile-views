@@ -11,8 +11,6 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
 
-        items.add('profile-views', (
-            <span>{icon('eye')} viewed {user.views()} times</span>
-        ));
+        items.add('profile-views', ({icon('eye')} viewed {user.views()} times));
     });
 });

@@ -30,9 +30,8 @@ System.register('michaelbelgium/flarum-profile-views/main', ['flarum/app', 'flar
                         'span',
                         null,
                         icon('eye'),
-                        ' viewed ',
-                        user.views(),
-                        ' times'
+                        ' ',
+                        app.translator.trans('flarum_profile_views.forum.user.views_count_text', { viewcount: user.views() })
                     ));
                 });
             });

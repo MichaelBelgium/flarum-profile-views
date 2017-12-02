@@ -3,6 +3,7 @@
 
 namespace michaelbelgium\profileviews\listeners;
 
+use Flarum\Event\ConfigureLocales;
 use Flarum\Event\ConfigureWebApp;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -14,6 +15,7 @@ class AddAssets
     public function subscribe(Dispatcher $events)
     {
         $events->listen(ConfigureWebApp::class, [$this, 'configAssets']);
+        $events->listen(ConfigureLocales::class, [$this, 'configLocales']);
     }
 
     /**
@@ -26,5 +28,13 @@ class AddAssets
             $event->addAssets(__DIR__.'/../../js/forum/dist/extension.js');
             $event->addBootstrapper('michaelbelgium/flarum-profile-views/main');
         }
+    }
+
+    /**
+     * @param ConfigureLocales $event
+     */
+    public function configLocales(ConfigureLocales $event)
+    {
+        $event->locales->addTranslations('en', __DIR__.'/../../locale/en.yml');
     }
 }

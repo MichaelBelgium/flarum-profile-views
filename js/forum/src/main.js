@@ -11,6 +11,12 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
 
-        items.add('profile-views', ({icon('eye')} viewed {user.views()} times));
+        items.add('profile-views',(
+            <span>
+                {icon('eye')}
+                {' '}
+                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: user.views()})}
+            </span>
+        ));
     });
 });

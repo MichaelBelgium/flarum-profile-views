@@ -6,6 +6,7 @@ namespace michaelbelgium\profileviews\listeners;
 use Flarum\Event\ConfigureLocales;
 use Flarum\Event\ConfigureWebApp;
 use Illuminate\Contracts\Events\Dispatcher;
+use DirectoryIterator;
 
 class AddAssets
 {
@@ -35,6 +36,10 @@ class AddAssets
      */
     public function configLocales(ConfigureLocales $event)
     {
-        $event->locales->addTranslations('en', __DIR__.'/../../locale/en.yml');
+        foreach (new DirectoryIterator(__DIR__.'/../../locale') as $file) {
+            if ($file->isFile() && in_array($file->getExtension(), ['yml', 'yaml'], false)) {
+                $event->locales->addTranslations($file->getBasename('.'.$file->getExtension()), $file->getPathname());
+            }
+        }
     }
 }

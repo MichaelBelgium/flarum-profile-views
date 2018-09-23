@@ -39,11 +39,10 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
 
         items.add('lastViewedUsers',
             FieldSet.component({
-              label: 'Last viewed:',
+              label: app.translator.trans('flarum_profile_views.forum.user.title_last_viewers'),
               className: 'LastUsers',
               children: lastViewed.toArray()
             })
         );
-        console.log(items);
     });
 });

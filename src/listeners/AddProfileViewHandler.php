@@ -28,21 +28,25 @@ class AddProfileViewHandler
                 $ip = $serverParams["HTTP_CF_CONNECTING_IP"];
 
             /** @var User $profile */
-            $user = $event->data;
+            $user = $event->actor;
+            $user_viewing = $event->data;
 
             $resultCount = app('flarum.db')
                 ->table("users_profile_views")
                 ->where("ip", $ip)
-                ->where("user_id", $user->id)
-                ->count()
-            ;
+                ->where("viewed_id", $user_viewing->id)
+                ->count();
 
             if($resultCount > 0) return;
 
-            $user->views++;
-            $user->save();
+            $user_viewing->views++;
+            $user_viewing->save();
 
-            app('flarum.db')->table("users_profile_views")->insert(array("ip" => $ip, "user_id" => $user->id));
+            app('flarum.db')->table("users_profile_views")->insert(array(
+                "ip" => $ip,
+                "user_id" => $user->id,
+                "viewed_id" => $user_viewing->id
+            ));
         }
     }
 }

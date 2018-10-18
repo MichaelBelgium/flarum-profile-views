@@ -6,7 +6,7 @@ use Flarum\Event\PrepareApiData;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Core\User;
 use Illuminate\Support\Facades\DB;
-use michaelbelgium\profileviews\ProfileView;
+use michaelbelgium\profileviews\models\ProfileView;
 
 class AddProfileViewHandler
 {

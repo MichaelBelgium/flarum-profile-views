@@ -7,13 +7,13 @@ use Illuminate\Contracts\Events\Dispatcher;
 use DirectoryIterator;
 use Flarum\Event\GetModelRelationship;
 use Flarum\Core\User;
-use michaelbelgium\profileviews\ProfileView;
+use michaelbelgium\profileviews\models\ProfileView;
 use Flarum\Event\GetApiRelationship;
 use Flarum\Api\Serializer\UserBasicSerializer;
 use Flarum\Event\ConfigureApiController;
 use Illuminate\Routing\Controller;
 use Flarum\Api\Controller\ShowUserController;
-use michaelbelgium\profileviews\ProfileViewSerializer;
+use michaelbelgium\profileviews\serializers\ProfileViewSerializer;
 
 class AddRelationship
 {

@@ -6,6 +6,7 @@ use Flarum\Event\PrepareApiData;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Core\User;
 use Illuminate\Support\Facades\DB;
+use michaelbelgium\profileviews\ProfileView;
 
 class AddProfileViewHandler
 {
@@ -31,22 +32,15 @@ class AddProfileViewHandler
             $user = $event->actor;
             $user_viewing = $event->data;
 
-            $resultCount = app('flarum.db')
-                ->table("users_profile_views")
-                ->where("ip", $ip)
-                ->where("viewed_id", $user_viewing->id)
-                ->count();
+            $resultCount = $user_viewing->userViewers()->where("ip" , $ip)->count();
 
             if($resultCount > 0) return;
 
-            $user_viewing->views++;
-            $user_viewing->save();
-
-            app('flarum.db')->table("users_profile_views")->insert(array(
+            $user_viewing->userViewers()->save(ProfileView::create([
                 "ip" => $ip,
                 "viewer_id" => $user->id,
                 "viewed_id" => $user_viewing->id
-            ));
+            ]));
         }
     }
 }

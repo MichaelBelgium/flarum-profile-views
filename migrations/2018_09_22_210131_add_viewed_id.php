@@ -8,6 +8,7 @@ return [
         $schema->table('users_profile_views', function (Blueprint $table) {
             $table->string('ip', 16)->change();
             $table->integer('viewed_id')->unsigned();
+            $table->renameColumn('user_id', 'viewer_id');
 
             $table->foreign("viewed_id")->references("id")->on("users")->onDelete("CASCADE")->onUpdate("CASCADE");
         });

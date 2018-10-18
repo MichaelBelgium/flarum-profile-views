@@ -44,7 +44,7 @@ class AddProfileViewHandler
 
             app('flarum.db')->table("users_profile_views")->insert(array(
                 "ip" => $ip,
-                "user_id" => $user->id,
+                "viewer_id" => $user->id,
                 "viewed_id" => $user_viewing->id
             ));
         }

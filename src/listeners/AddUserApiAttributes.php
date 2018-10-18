@@ -21,6 +21,6 @@ class AddUserApiAttributes
     public function addApiAttributes(PrepareApiAttributes $event)
     {
         if ($event->isSerializer(UserSerializer::class))
-            $event->attributes['views'] = $event->model->views;
+            $event->attributes['views'] = $event->model->userViewers()->count();
     }
 }

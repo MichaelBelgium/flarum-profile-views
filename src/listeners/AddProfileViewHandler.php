@@ -7,6 +7,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Core\User;
 use Illuminate\Support\Facades\DB;
 use michaelbelgium\profileviews\models\ProfileView;
+use Flarum\Core\Guest;
 
 class AddProfileViewHandler
 {
@@ -28,13 +29,11 @@ class AddProfileViewHandler
             if (isset($serverParams["HTTP_CF_CONNECTING_IP"]))
                 $ip = $serverParams["HTTP_CF_CONNECTING_IP"];
 
-            /** @var User $profile */
             $user = $event->actor;
             $user_viewing = $event->data;
-
             $resultCount = $user_viewing->userViewers()->where("ip" , $ip)->count();
 
-            if($resultCount > 0) return;
+            if($resultCount > 0 || $user->id == $user_viewing->id || $user->isGuest()) return;
 
             $user_viewing->userViewers()->save(ProfileView::create([
                 "ip" => $ip,

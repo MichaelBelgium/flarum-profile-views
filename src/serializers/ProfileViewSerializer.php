@@ -11,11 +11,6 @@ class ProfileViewSerializer extends AbstractSerializer
 
 	protected function getDefaultAttributes($model)
 	{
-		return [
-			'id' => $model->id,
-			'ip' => $model->ip,
-			'viewer_id' => $model->viewer_id,
-			'viewed_id' => $model->viewed_id
-		];
+		return $model->toArray();
 	}
 }

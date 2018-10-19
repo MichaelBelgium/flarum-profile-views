@@ -3,17 +3,18 @@
 
 namespace michaelbelgium\profileviews\listeners;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use DirectoryIterator;
-use Flarum\Event\GetModelRelationship;
-use Flarum\Core\User;
-use michaelbelgium\profileviews\models\ProfileView;
-use Flarum\Event\GetApiRelationship;
-use Flarum\Api\Serializer\UserBasicSerializer;
-use Flarum\Event\ConfigureApiController;
 use Illuminate\Routing\Controller;
+use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Api\Controller\ShowUserController;
+use Flarum\Api\Serializer\UserBasicSerializer;
+use Flarum\Core\User;
+use Flarum\Event\GetModelRelationship;
+use Flarum\Event\GetApiRelationship;
+use Flarum\Event\ConfigureApiController;
+use Flarum\Event\PrepareApiData;
+
 use michaelbelgium\profileviews\serializers\ProfileViewSerializer;
+use michaelbelgium\profileviews\models\ProfileView;
 
 class AddRelationship
 {
@@ -53,6 +54,9 @@ class AddRelationship
         }
     }
 
+    /**
+     * @param ConfigureApiController $event
+     */
     public function configureApiController(ConfigureApiController $event)
     {
         if($event->isController(ShowUserController::class))

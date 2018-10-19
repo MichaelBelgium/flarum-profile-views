@@ -33,7 +33,7 @@ System.register('michaelbelgium/flarum-profile-views/main', ['flarum/app', 'flar
         execute: function () {
 
             app.initializers.add('michaelbelgium-flarum-profile-views', function () {
-                app.store.models.userViews = ProfileView;
+                app.store.models.userViewers = ProfileView;
 
                 User.prototype.userviews = Model.hasMany('userViewers');
 
@@ -51,9 +51,12 @@ System.register('michaelbelgium/flarum-profile-views/main', ['flarum/app', 'flar
                 });
 
                 extend(UserPage.prototype, 'sidebarItems', function (items) {
-                    $.each(this.user.userviews(), function (index, element) {
-                        console.log(index + ': ' + element);
-                    });
+                    if (this.user.userviews() !== false) {
+                        $.each(this.user.userviews(), function (index, element) {
+                            console.log(element);
+                        });
+                    }
+
                     // const lastViewed = new ItemList();
                     // const testUser = app.store.all('users').filter(user => user.id() == 1)[0];
                     // console.log(testUser);

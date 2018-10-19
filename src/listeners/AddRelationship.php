@@ -25,6 +25,8 @@ class AddRelationship
     public function subscribe(Dispatcher $events)
     {
         $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
+        $events->listen(GetApiRelationship::class, [$this, 'getApiRelationship']);
+        $events->listen(ConfigureApiController::class, [$this, 'configureApiController']);
     }
 
     /**
@@ -37,6 +39,25 @@ class AddRelationship
         if($event->isRelationship(User::class, self::RELATIONSHIP_NAME))
         {
             return $event->model->hasMany(ProfileView::class, 'viewed_id', 'id');
+        }
+    }
+
+    /**
+     * @param GetApiRelationship $event
+     */
+    public function getApiRelationship(GetApiRelationship $event)
+    {
+        if($event->isRelationship(UserBasicSerializer::class, self::RELATIONSHIP_NAME))
+        {
+            return $event->serializer->hasMany($event->model, ProfileViewSerializer::class, self::RELATIONSHIP_NAME);
+        }
+    }
+
+    public function configureApiController(ConfigureApiController $event)
+    {
+        if($event->isController(ShowUserController::class))
+        {
+            $event->addInclude(self::RELATIONSHIP_NAME);
         }
     }
 }

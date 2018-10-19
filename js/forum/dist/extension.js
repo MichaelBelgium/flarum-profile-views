@@ -35,18 +35,18 @@ System.register('michaelbelgium/flarum-profile-views/main', ['flarum/app', 'flar
             app.initializers.add('michaelbelgium-flarum-profile-views', function () {
                 app.store.models.userViews = ProfileView;
 
-                User.prototype.views = Model.attribute('views');
                 User.prototype.userviews = Model.hasMany('userViewers');
 
                 extend(UserCard.prototype, 'infoItems', function (items) {
                     var user = this.props.user;
+                    var views = user.userviews() === false ? 0 : user.userviews().length;
 
                     items.add('profile-views', m(
                         'span',
                         null,
                         icon('eye'),
                         ' ',
-                        app.translator.trans('flarum_profile_views.forum.user.views_count_text', { viewcount: user.views() })
+                        app.translator.trans('flarum_profile_views.forum.user.views_count_text', { viewcount: views })
                     ));
                 });
 

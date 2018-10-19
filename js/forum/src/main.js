@@ -14,17 +14,17 @@ import { extend } from 'flarum/extend';
 app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     app.store.models.userViews = ProfileView;
 
-    User.prototype.views = Model.attribute('views');
     User.prototype.userviews = Model.hasMany('userViewers');
 
     extend(UserCard.prototype, 'infoItems', function(items) {
-        const user = this.props.user;
+        var user = this.props.user;
+        var views = user.userviews() === false ? 0 : user.userviews().length;
 
         items.add('profile-views',(
             <span>
                 {icon('eye')}
                 {' '}
-                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: user.views()})}
+                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: views})}
             </span>
         ));
     });

@@ -61,7 +61,7 @@ System.register('michaelbelgium/flarum-profile-views/main', ['flarum/app', 'flar
 
                             lastViewed.add('lastUser', m(
                                 'a',
-                                { href: app.forum.attribute('baseUrl') + '/u/' + viewer.id() },
+                                { href: app.forum.attribute('baseUrl') + '/u/' + viewer.username() },
                                 avatar(viewer, { className: 'lastUser-avatar' }),
                                 username(viewer, { className: 'lastUser-name' })
                             ));

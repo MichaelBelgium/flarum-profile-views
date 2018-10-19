@@ -38,7 +38,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
                 var viewer = app.store.all('users').filter(u => u.id() == element.viewer())[0];
 
                 lastViewed.add('lastUser', 
-                    <a href={app.forum.attribute('baseUrl') + '/u/' + viewer.id() }>
+                    <a href={app.forum.attribute('baseUrl') + '/u/' + viewer.username() }>
                         {avatar(viewer, {className: 'lastUser-avatar'})}
                         {username(viewer, {className: 'lastUser-name'})}
                     </a>

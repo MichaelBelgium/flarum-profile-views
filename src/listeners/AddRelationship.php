@@ -61,7 +61,7 @@ class AddRelationship
     {
         if($event->isController(ShowUserController::class))
         {
-            $event->addInclude(self::RELATIONSHIP_NAME);
+            $event->addInclude([self::RELATIONSHIP_NAME, self::RELATIONSHIP_NAME.'.userviewer', self::RELATIONSHIP_NAME.'.userviewed']);
         }
     }
 }

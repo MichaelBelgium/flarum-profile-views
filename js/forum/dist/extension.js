@@ -55,9 +55,7 @@ System.register('michaelbelgium/flarum-profile-views/main', ['flarum/app', 'flar
                         var lastViewed = new ItemList();
 
                         $.each(this.user.userviews(), function (index, element) {
-                            var viewer = app.store.all('users').filter(function (u) {
-                                return u.id() == element.viewer();
-                            })[0];
+                            var viewer = element.viewer();
 
                             lastViewed.add('lastUser', m(
                                 'a',
@@ -101,10 +99,8 @@ System.register('michaelbelgium/flarum-profile-views/models/ProfileView', ['flar
 
                 return ProfileView;
             }(mixin(Model, {
-                id: Model.attribute('id'),
-                ip: Model.attribute('ip'),
-                viewer: Model.attribute('viewer_id'),
-                viewed: Model.attribute('viewed_id')
+                viewer: Model.hasOne('userviewer'),
+                viewed: Model.hasOne('userviewed')
             }));
 
             _export('default', ProfileView);

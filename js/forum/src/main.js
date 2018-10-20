@@ -35,7 +35,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
             const lastViewed = new ItemList();
 
             $.each(this.user.userviews(), function(index, element) {
-                var viewer = app.store.all('users').filter(u => u.id() == element.viewer())[0];
+                var viewer = element.viewer();
 
                 lastViewed.add('lastUser', 
                     <a href={app.forum.attribute('baseUrl') + '/u/' + viewer.username() }>

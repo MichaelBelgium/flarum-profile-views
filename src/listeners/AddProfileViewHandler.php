@@ -2,19 +2,19 @@
 namespace michaelbelgium\profileviews\listeners;
 
 use Flarum\Api\Controller\ShowUserController;
-use Flarum\Event\PrepareApiData;
+use Flarum\Api\Event\WillSerializeData;
 use Illuminate\Contracts\Events\Dispatcher;
-use Flarum\Core\User;
+use Flarum\User\User;
 use Illuminate\Support\Facades\DB;
 
 class AddProfileViewHandler
 {
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(PrepareApiData::class, [$this, "confViews"]);
+        $events->listen(WillSerializeData::class, [$this, "confViews"]);
     }
 
-    public function confViews(PrepareApiData $event)
+    public function confViews(WillSerializeData $event)
     {
         if($event->isController(ShowUserController::class))
         {

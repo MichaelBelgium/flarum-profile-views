@@ -2,7 +2,7 @@
 namespace michaelbelgium\profileviews\listeners;
 
 use Flarum\Api\Serializer\UserSerializer;
-use Flarum\Event\PrepareApiAttributes;
+use Flarum\Api\Event\Serializing;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class AddUserApiAttributes
@@ -12,13 +12,13 @@ class AddUserApiAttributes
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(PrepareApiAttributes::class, [$this, 'addApiAttributes']);
+        $events->listen(Serializing::class, [$this, 'addApiAttributes']);
     }
 
     /**
-     * @param PrepareApiAttributes $event
+     * @param Serializing $event
      */
-    public function addApiAttributes(PrepareApiAttributes $event)
+    public function addApiAttributes(Serializing $event)
     {
         if ($event->isSerializer(UserSerializer::class))
             $event->attributes['views'] = $event->model->views;

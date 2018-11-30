@@ -13,7 +13,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
 
         items.add('profile-views',(
             <span>
-                {icon('eye')}
+                {icon('far fa-eye')}
                 {' '}
                 {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: user.views()})}
             </span>

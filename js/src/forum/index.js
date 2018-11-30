@@ -15,7 +15,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
             <span>
                 {icon('far fa-eye')}
                 {' '}
-                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: user.views()})}
+                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: user.views() == 0 ? '0' : user.views()})}
             </span>
         ));
     });

@@ -31,9 +31,9 @@ class AddProfileViewHandler
             $user = $event->data;
 
             $resultCount = app('flarum.db')
-                ->table("users_profile_views")
+                ->table("user_profile_views")
                 ->where("ip", $ip)
-                ->where("user_id", $user->id)
+                ->where("viewed_user_id", $user->id)
                 ->count()
             ;
 
@@ -42,7 +42,7 @@ class AddProfileViewHandler
             $user->view_count++;
             $user->save();
 
-            app('flarum.db')->table("users_profile_views")->insert(array("ip" => $ip, "user_id" => $user->id));
+            app('flarum.db')->table("user_profile_views")->insert(array("ip" => $ip, "viewed_user_id" => $user->id));
         }
     }
 }

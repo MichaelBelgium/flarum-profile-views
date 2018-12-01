@@ -39,7 +39,7 @@ class AddProfileViewHandler
 
             if($resultCount > 0) return;
 
-            $user->views++;
+            $user->view_count++;
             $user->save();
 
             app('flarum.db')->table("users_profile_views")->insert(array("ip" => $ip, "user_id" => $user->id));

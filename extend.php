@@ -1,8 +1,9 @@
 <?php
-
-use Illuminate\Contracts\Events\Dispatcher;
 use michaelbelgium\profileviews\listeners;
 
+use Illuminate\Contracts\Events\Dispatcher;
+use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Api\Event\Serializing;
 use Flarum\Extend\Locales;
 use Flarum\Extend\Frontend;
 
@@ -14,6 +15,12 @@ return [
 
     function (Dispatcher $events) {
         $events->subscribe(listeners\AddProfileViewHandler::class);
-        $events->subscribe(listeners\AddUserApiAttributes::class);
+        $events->subscribe(listeners\AddUserProfileViewsRelationship::class);
+        
+        $events->listen(Serializing::class, function (Serializing $event) {
+            if ($event->isSerializer(UserSerializer::class)) {
+                $event->attributes['views'] = $event->model->profileViews()->count();
+            }
+        });
     }
 ];

@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Builder;
 return [
     'up' => function (Builder $schema) {
         $schema->table('users', function (Blueprint $table) {
-            $table->renameColumn('views', 'view_count');
+            $table->dropColumn('views');
         });
 
         $schema->table('user_profile_views', function (Blueprint $table) {
@@ -15,10 +15,6 @@ return [
     },
 
     'down' => function (Builder $schema) {
-        $schema->table('users', function (Blueprint $table) {
-            $table->renameColumn('view_count', 'views');
-        });
-
         $schema->table('user_profile_views', function (Blueprint $table) {
             $table->renameColumn('viewed_user_id', 'user_id');
         });

@@ -29,10 +29,11 @@ class AddProfileViewHandler
                 $ip = $serverParams["HTTP_CF_CONNECTING_IP"];
             
             $visited_user = $event->data;
+            $user = $event->actor;
 
             $resultCount = $visited_user->profileViews()->wherePivot('ip', '=', $ip)->count();
 
-            if($resultCount > 0) return;
+            if($resultCount > 0 || $user->isGuest()) return;
 
             $visited_user->profileViews()->attach($user, ["ip" => $ip]);
         }

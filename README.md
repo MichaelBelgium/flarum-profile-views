@@ -6,6 +6,15 @@ This is an extension for the [flarum forum software](http://flarum.org) where yo
 
 Execute this command in your flarum root: `composer require michaelbelgium/flarum-profile-views`
 
+# Updating
+Execute these commands to update the extension:
+
+```
+composer update michaelbelgium/flarum-profile-views
+php flarum migrate
+php flarum cache:clear
+```
+
 # Features
 * Tracks and displays **unique** profileviews in the usercard
 

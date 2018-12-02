@@ -2,21 +2,17 @@
 namespace michaelbelgium\profileviews\listeners;
 
 use Flarum\Api\Controller\ShowUserController;
-use Flarum\Event\PrepareApiData;
+use Flarum\Api\Event\WillSerializeData;
 use Illuminate\Contracts\Events\Dispatcher;
-use Flarum\Core\User;
-use Illuminate\Support\Facades\DB;
-use michaelbelgium\profileviews\models\ProfileView;
-use Flarum\Core\Guest;
 
 class AddProfileViewHandler
 {
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(PrepareApiData::class, [$this, "confViews"]);
+        $events->listen(WillSerializeData::class, [$this, "confViews"]);
     }
 
-    public function confViews(PrepareApiData $event)
+    public function confViews(WillSerializeData $event)
     {
         if($event->isController(ShowUserController::class))
         {
@@ -28,18 +24,15 @@ class AddProfileViewHandler
 
             if (isset($serverParams["HTTP_CF_CONNECTING_IP"]))
                 $ip = $serverParams["HTTP_CF_CONNECTING_IP"];
-
+            
+            $visited_user = $event->data;
             $user = $event->actor;
-            $user_viewing = $event->data;
-            $resultCount = $user_viewing->userViewers()->where("ip" , $ip)->count();
 
-            if($resultCount > 0 || $user->id == $user_viewing->id || $user->isGuest()) return;
+            $resultCount = $visited_user->profileViews()->wherePivot('ip', '=', $ip)->count();
 
-            $user_viewing->userViewers()->save(ProfileView::create([
-                "ip" => $ip,
-                "viewer_id" => $user->id,
-                "viewed_id" => $user_viewing->id
-            ]));
+            if($resultCount > 0 || $user->isGuest()) return;
+
+            $visited_user->profileViews()->attach($user, ["ip" => $ip]);
         }
     }
 }

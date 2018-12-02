@@ -8,11 +8,15 @@ return [
         $schema->table('users', function (Blueprint $table) {
             $table->dropColumn('views');
         });
+
+        $schema->table('user_profile_views', function (Blueprint $table) {
+            $table->renameColumn('user_id', 'viewed_user_id');
+        });
     },
 
     'down' => function (Builder $schema) {
-        $schema->table('users', function (Blueprint $table) {
-            $table->integer('views')->default(0);            
+        $schema->table('user_profile_views', function (Blueprint $table) {
+            $table->renameColumn('viewed_user_id', 'user_id');
         });
     }
 ];

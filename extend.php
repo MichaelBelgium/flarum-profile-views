@@ -2,14 +2,13 @@
 use michaelbelgium\profileviews\listeners;
 
 use Illuminate\Contracts\Events\Dispatcher;
-use Flarum\Api\Serializer\UserSerializer;
-use Flarum\Api\Event\Serializing;
 use Flarum\Extend\Locales;
 use Flarum\Extend\Frontend;
 
 return [
     (new Frontend('forum'))
-        ->js(__DIR__. '/js/dist/forum.js'),
+        ->js(__DIR__. '/js/dist/forum.js')
+        ->css(__DIR__. '/less/extension.less'),
 
     new Locales(__DIR__ . '/locale'),
 

@@ -2,8 +2,12 @@ import app from 'flarum/app';
 import User from 'flarum/models/User';
 import UserPage from 'flarum/components/UserPage';
 import UserCard from 'flarum/components/UserCard';
+import FieldSet from 'flarum/components/FieldSet';
 import icon from 'flarum/helpers/icon';
+import avatar from 'flarum/helpers/avatar';
+import username from 'flarum/helpers/username';
 import Model from 'flarum/Model';
+import ItemList from 'flarum/utils/ItemList';
 import { extend } from 'flarum/extend';
 
 app.initializers.add('michaelbelgium-flarum-profile-views', function() {
@@ -22,26 +26,22 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     });
 
     extend(UserPage.prototype, 'sidebarItems', function(items) {
-        // if(this.user.userviews() !== false)
-        // {
-        //     const lastViewed = new ItemList();
+        const lastViewed = new ItemList();
 
-        //     $.each(this.user.userviews(), function(index, element) {
-        //         var viewer = element.viewer();
+        $.each(this.user.profileViews(), function(index, viewer) {
 
-        //         lastViewed.add('lastUser', 
-        //             <a href={app.forum.attribute('baseUrl') + '/u/' + viewer.username() }>
-        //                 {avatar(viewer, {className: 'lastUser-avatar'})}
-        //                 {username(viewer, {className: 'lastUser-name'})}
-        //             </a>
-        //         );
-        //     });
+            lastViewed.add('lastUser-' + viewer.id(),
+                <a href={app.forum.attribute('baseUrl') + '/u/' + viewer.username() }>
+                    {avatar(viewer, {className: 'lastUser-avatar'})}
+                    {username(viewer, {className: 'lastUser-name'})}
+                </a>
+            );
+        });
 
-        //     items.add('lastViewedUsers', FieldSet.component({
-        //         label: app.translator.trans('flarum_profile_views.forum.user.title_last_viewers'),
-        //         className: 'LastUsers',
-        //         children: lastViewed.toArray()
-        //     }));
-        // }
+        items.add('lastViewedUsers', FieldSet.component({
+            label: app.translator.trans('flarum_profile_views.forum.user.title_last_viewers'),
+            className: 'LastUsers',
+            children: lastViewed.toArray()
+        }));
     });
 });

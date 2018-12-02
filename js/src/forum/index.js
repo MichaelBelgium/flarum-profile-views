@@ -7,7 +7,7 @@ import Model from 'flarum/Model';
 import { extend } from 'flarum/extend';
 
 app.initializers.add('michaelbelgium-flarum-profile-views', function() {
-    User.prototype.views = Model.attribute('views');
+    User.prototype.profileViews = Model.hasMany('profileViews');
 
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
@@ -16,7 +16,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
             <span>
                 {icon('far fa-eye')}
                 {' '}
-                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: user.views() == 0 ? '0' : user.views()})}
+                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: '' + user.profileViews().length})}
             </span>
         ));
     });

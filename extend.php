@@ -16,11 +16,5 @@ return [
     function (Dispatcher $events) {
         $events->subscribe(listeners\AddProfileViewHandler::class);
         $events->subscribe(listeners\AddUserProfileViewsRelationship::class);
-        
-        $events->listen(Serializing::class, function (Serializing $event) {
-            if ($event->isSerializer(UserSerializer::class)) {
-                $event->attributes['views'] = $event->model->profileViews()->count();
-            }
-        });
     }
 ];

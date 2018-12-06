@@ -1,9 +1,10 @@
 <?php
-use michaelbelgium\profileviews\listeners;
-
+use michaelbelgium\profileviews\listeners\AddUserProfileViewsRelationship;
+use michaelbelgium\profileviews\controllers\CreateUserProfileViewController;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Extend\Locales;
 use Flarum\Extend\Frontend;
+use Flarum\Extend\Routes;
 
 return [
     (new Frontend('forum'))
@@ -12,8 +13,10 @@ return [
 
     new Locales(__DIR__ . '/locale'),
 
+    (new Routes('api'))
+        ->post('/profileview/{id}', 'profileview.add', CreateUserProfileViewController::class),
+
     function (Dispatcher $events) {
-        $events->subscribe(listeners\AddProfileViewHandler::class);
-        $events->subscribe(listeners\AddUserProfileViewsRelationship::class);
+        $events->subscribe(AddUserProfileViewsRelationship::class);
     }
 ];

@@ -20,7 +20,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
             <span>
                 {icon('far fa-eye')}
                 {' '}
-                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: '' + user.profileViews().length})}
+                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: '' + (user.profileViews() === false ? '0' : user.profileViews().length)})}
             </span>
         ));
     });
@@ -43,5 +43,16 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
             className: 'LastUsers',
             children: lastViewed.toArray()
         }));
+    });
+
+    extend(UserPage.prototype, 'show', function() {
+        if(typeof app.session.user !== 'undefined' && app.session.user.id() !== this.user.id())
+        {
+            app.request({
+                method: 'POST',
+                url: app.forum.attribute('apiUrl') + '/profileview/' + this.user.id(),
+                data: { viewer: app.session.user.id() }
+            });
+        }
     });
 });

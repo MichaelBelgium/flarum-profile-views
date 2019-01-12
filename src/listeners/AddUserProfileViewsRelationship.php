@@ -1,5 +1,5 @@
 <?php
-namespace michaelbelgium\profileviews\listeners;
+namespace Michaelbelgium\Profileviews\Listeners;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Event\GetApiRelationship;

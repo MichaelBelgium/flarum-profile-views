@@ -1,6 +1,6 @@
 <?php
-use michaelbelgium\profileviews\listeners\AddUserProfileViewsRelationship;
-use michaelbelgium\profileviews\controllers\CreateUserProfileViewController;
+use Michaelbelgium\Profileviews\Listeners\AddUserProfileViewsRelationship;
+use Michaelbelgium\Profileviews\Controllers\CreateUserProfileViewController;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Extend\Locales;
 use Flarum\Extend\Frontend;

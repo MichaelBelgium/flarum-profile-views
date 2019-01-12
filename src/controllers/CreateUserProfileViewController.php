@@ -16,15 +16,15 @@ class CreateUserProfileViewController implements RequestHandlerInterface
         $viewerId = array_get($request->getParsedBody(), 'viewer');
         $user = User::find($userId);
         $serverParams = $request->getServerParams();
-        $ip = $serverParams['REMOTE_ADDR'];
 
-        if (isset($serverParams["HTTP_CF_CONNECTING_IP"]))
-            $ip = $serverParams["HTTP_CF_CONNECTING_IP"];
+        $profileView = $user->profileViews()->where('viewer_id', $viewerId);
 
-        $resultCount = $user->profileViews()->wherePivot('ip', '=', $ip)->count();
+        $count = $profileView->count();
 
-        if($resultCount == 0)
-            $user->profileViews()->attach(User::find($viewerId), ["ip" => $ip]);
+        if($count == 0)
+            $user->profileViews()->attach(User::find($viewerId), ["visited_at" => date('Y-m-d H:i:s')]);
+        else 
+            $profileView->update(["visited_at" => date('Y-m-d H:i:s')]);
         
         return new EmptyResponse();
     }

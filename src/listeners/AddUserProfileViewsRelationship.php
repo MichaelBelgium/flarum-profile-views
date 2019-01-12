@@ -28,12 +28,12 @@ class AddUserProfileViewsRelationship
 	{
 		if($event->isRelationship(User::class, self::RELATIONSHIP))
 		{
-			return $event->model->belongsToMany(User::class, 'user_profile_views', 'viewed_user_id', 'viewer_id')->withPivot('ip');
+			return $event->model->belongsToMany(User::class, 'user_profile_views', 'viewed_user_id', 'viewer_id')->withPivot('visited_at');
 		}
 
 		if($event->isRelationship(User::class, self::RELATIONSHIP_OTHER))
 		{
-			return $event->model->belongsToMany(User::class, 'user_profile_views', 'viewer_id', 'viewed_user_id')->withPivot('ip');
+			return $event->model->belongsToMany(User::class, 'user_profile_views', 'viewer_id', 'viewed_user_id')->withPivot('visited_at');
 		}
 	}
 

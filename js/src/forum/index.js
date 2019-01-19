@@ -15,8 +15,6 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     app.store.models.profileviews = ProfileView;
     User.prototype.profileViews = Model.hasMany('profileviews');//comes from the line above: "app.store.models."profileviews"
 
-    // app.store.find('profileviews').then(console.log);
-    console.log(app.store.all('profileviews'));
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
 
@@ -32,7 +30,6 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     extend(UserPage.prototype, 'sidebarItems', function(items) {
         const lastViewed = new ItemList();
 
-        console.log(this.user);
         console.log(this.user.profileViews());
         $.each(this.user.profileViews(), function(index, view) {
 

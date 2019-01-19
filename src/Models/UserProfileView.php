@@ -4,7 +4,6 @@ namespace Michaelbelgium\Profileviews\Models;
 
 use Flarum\Database\AbstractModel;
 use Flarum\User\User;
-use Carbon\Carbon;
 
 class UserProfileView extends AbstractModel
 {

@@ -16,19 +16,22 @@ class CreateUserProfileViewController implements RequestHandlerInterface
     {
         $userId = array_get($request->getQueryParams(), 'id');
         $viewerId = array_get($request->getParsedBody(), 'viewer');
+        $user = User::find($userId);
 
-        $profileView = UserProfileView::where('viewer_id', $viewerId)->where('viewed_user_id', $userId)->first();
+        $test = $user->profileViews;
+        $testOther = $user->viewedProfiles;
 
-        if(is_null($profileView))
-        {
+        $profileView = $user->profileViews()->where('viewer_id', $viewerId)->first();
+
+        if(is_null($profileView)) {
             $profileView = new UserProfileView();
+            $profileView->viewedUser()->associate($user);
             $profileView->viewer()->associate(User::find($viewerId));
-            $profileView->viewedUser()->associate(User::find($userId));
         }
 
-        $profileView->visited_at = Carbon::now();        
+        $profileView->visited_at = Carbon::now();
         $profileView->save();
-
+        
         return new EmptyResponse();
     }
 }

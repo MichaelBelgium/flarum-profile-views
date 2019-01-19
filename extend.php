@@ -1,5 +1,5 @@
 <?php
-use Michaelbelgium\Profileviews\Controllers\ListProfileViewsController;
+use Michaelbelgium\Profileviews\Listeners\AddUserProfileViewsRelationship;
 use Michaelbelgium\Profileviews\Controllers\CreateUserProfileViewController;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Extend\Locales;
@@ -14,6 +14,9 @@ return [
     new Locales(__DIR__ . '/locale'),
 
     (new Routes('api'))
-        ->post('/profileview/{id}', 'profileview.add', CreateUserProfileViewController::class)
-        ->get('/profileview', 'profileview.index', ListProfileViewsController::class),
+        ->post('/profileview/{id}', 'profileview.add', CreateUserProfileViewController::class),
+
+    function (Dispatcher $events) {
+        $events->subscribe(AddUserProfileViewsRelationship::class);
+    }
 ];

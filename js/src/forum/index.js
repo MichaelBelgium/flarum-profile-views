@@ -1,4 +1,3 @@
-import app from 'flarum/app';
 import User from 'flarum/models/User';
 import UserPage from 'flarum/components/UserPage';
 import UserCard from 'flarum/components/UserCard';
@@ -12,35 +11,36 @@ import { extend } from 'flarum/extend';
 import ProfileView from '../ProfileView';
 
 app.initializers.add('michaelbelgium-flarum-profile-views', function() {
-    app.store.models.profileviews = ProfileView;
-    User.prototype.profileViews = Model.hasMany('profileviews');//comes from the line above: "app.store.models."profileviews"
+    // app.store.models.profileViews = ProfileView;
+    User.prototype.profileViews = Model.hasMany('profileViews');//comes from the extended user serializer relationship self::RELATIONSHIP
 
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
 
-        items.add('profile-views',(
-            <span>
-                {icon('far fa-eye')}
-                {' '}
-                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: '' + (user.profileViews() === false ? '0' : user.profileViews().length)})}
-            </span>
-        ));
+        // items.add('profile-views',(
+        //     <span>
+        //         {icon('far fa-eye')}
+        //         {' '}
+        //         {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: '' + (user.profileViews() === false ? '0' : user.profileViews().length)})}
+        //     </span>
+        // ));
     });
 
     extend(UserPage.prototype, 'sidebarItems', function(items) {
         const lastViewed = new ItemList();
 
-        console.log(this.user.profileViews());
-        $.each(this.user.profileViews(), function(index, view) {
+        console.log(this.user);
+        console.log(this.user.profileViews());//from User prototype
+        // $.each(this.user.profileViews(), function(index, view) {
 
-            console.log(view);
+            // console.log(view);
             // lastViewed.add('lastUser-' + viewer.id(),
             //     <a href={app.forum.attribute('baseUrl') + '/u/' + viewer.username() }>
             //         {avatar(viewer, {className: 'lastUser-avatar'})}
             //         {username(viewer, {className: 'lastUser-name'})}
             //     </a>
             // );
-        });
+        // });
 
         // items.add('lastViewedUsers', FieldSet.component({
         //     label: app.translator.trans('flarum_profile_views.forum.user.title_last_viewers'),

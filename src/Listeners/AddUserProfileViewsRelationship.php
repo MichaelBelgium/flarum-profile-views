@@ -23,7 +23,7 @@ class AddUserProfileViewsRelationship
     {
 		$events->listen(WillGetData::class, [$this, 'includeTagsRelationship']);
 		$events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
-		$events->listen(GetApiRelationship::class, [$this, 'GetApiRelationship']);
+		$events->listen(GetApiRelationship::class, [$this, 'getApiRelationship']);
 	}
 	
 	public function getModelRelationship(GetModelRelationship $event)

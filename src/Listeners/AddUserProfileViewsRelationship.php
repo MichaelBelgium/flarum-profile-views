@@ -58,9 +58,9 @@ class AddUserProfileViewsRelationship
 	/**
      * @param WillGetData $event
      */
-    public function includeTagsRelationship(WillGetData $event)
-    {
+	public function includeTagsRelationship(WillGetData $event)
+	{
 		if($event->controller->serializer == UserSerializer::class)
 			$event->addInclude([self::RELATIONSHIP, self::RELATIONSHIP.'.viewer', self::RELATIONSHIP.'.viewedUser']);//".x" comes from model relationship UserProfileView
-    }
+	}
 }

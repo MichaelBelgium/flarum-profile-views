@@ -7,11 +7,30 @@ fieldset.LastUsers {
 			display: block;
 			  
 			span.lastUser-avatar {
-				width: 35px;
+				width: 20%;
+				display: inline-block;
 				height: 35px;
 				line-height: 35px;
-				vertical-align: middle;
-				margin-right: 6px;
+			}
+
+			div {
+				display: inline-block;
+				width: 80%;
+
+				span.username {
+    				margin-left: 6px;
+				}
+	
+				span.lastUser-visited {
+					float: right;
+					font-size: .8em;
+				}
+			}
+		}
+
+		li a:hover {
+			div > span {
+				text-decoration: underline;
 			}
 		}
 	}

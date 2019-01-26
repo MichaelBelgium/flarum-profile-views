@@ -14,7 +14,7 @@ return [
     new Locales(__DIR__ . '/locale'),
 
     (new Routes('api'))
-        ->post('/profileview/{id}', 'profileview.add', CreateUserProfileViewController::class),
+        ->post('/profileview', 'profileview.create', CreateUserProfileViewController::class),
 
     function (Dispatcher $events) {
         $events->subscribe(AddUserProfileViewsRelationship::class);

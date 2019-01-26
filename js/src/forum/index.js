@@ -11,8 +11,8 @@ import { extend } from 'flarum/extend';
 import ProfileView from '../ProfileView';
 
 app.initializers.add('michaelbelgium-flarum-profile-views', function() {
-    // app.store.models.profileViews = ProfileView;
-    User.prototype.profileViews = Model.hasMany('profileViews');//comes from the extended user serializer relationship self::RELATIONSHIP
+    app.store.models.profileview = ProfileView;
+    User.prototype.profileViews = Model.hasMany('profileview');//comes from the extended user serializer relationship self::RELATIONSHIP
 
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
@@ -54,8 +54,11 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
         {
             app.request({
                 method: 'POST',
-                url: app.forum.attribute('apiUrl') + '/profileview/' + this.user.id(),
-                data: { viewer: app.session.user.id() }
+                url: app.forum.attribute('apiUrl') + '/profileview',
+                data: { 
+                    viewer: app.session.user.id(),
+                    viewedUser: this.user.id()
+                }
             });
         }
     });

@@ -22,3 +22,5 @@ php flarum cache:clear
 # Media
 
 ![image](http://puu.sh/yxd7o.png)
+
+![image](http://puu.sh/CCJvo.png)

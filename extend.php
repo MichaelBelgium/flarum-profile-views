@@ -1,26 +1,22 @@
 <?php
-use michaelbelgium\profileviews\listeners;
-
+use Michaelbelgium\Profileviews\Listeners\AddUserProfileViewsRelationship;
+use Michaelbelgium\Profileviews\Controllers\CreateUserProfileViewController;
 use Illuminate\Contracts\Events\Dispatcher;
-use Flarum\Api\Serializer\UserSerializer;
-use Flarum\Api\Event\Serializing;
 use Flarum\Extend\Locales;
 use Flarum\Extend\Frontend;
+use Flarum\Extend\Routes;
 
 return [
     (new Frontend('forum'))
-        ->js(__DIR__. '/js/dist/forum.js'),
+        ->js(__DIR__. '/js/dist/forum.js')
+        ->css(__DIR__. '/less/extension.less'),
 
     new Locales(__DIR__ . '/locale'),
 
+    (new Routes('api'))
+        ->post('/profileview', 'profileview.create', CreateUserProfileViewController::class),
+
     function (Dispatcher $events) {
-        $events->subscribe(listeners\AddProfileViewHandler::class);
-        $events->subscribe(listeners\AddUserProfileViewsRelationship::class);
-        
-        $events->listen(Serializing::class, function (Serializing $event) {
-            if ($event->isSerializer(UserSerializer::class)) {
-                $event->attributes['views'] = $event->model->profileViews()->count();
-            }
-        });
+        $events->subscribe(AddUserProfileViewsRelationship::class);
     }
 ];

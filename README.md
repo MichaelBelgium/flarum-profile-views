@@ -17,7 +17,10 @@ php flarum cache:clear
 
 # Features
 * Tracks and displays **unique** profileviews in the usercard
+* Displays a list of last viewers on a user profile
 
 # Media
 
 ![image](http://puu.sh/yxd7o.png)
+
+![image](http://puu.sh/CCJvo.png)

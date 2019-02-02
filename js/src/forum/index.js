@@ -30,17 +30,26 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     extend(UserPage.prototype, 'sidebarItems', function(items) {
         const lastViewed = new ItemList();
 
-        $.each(this.user.profileViews(), function(index, pv) {
-            lastViewed.add('lastUser-' + pv.viewer().id(),
-                <a href={app.forum.attribute('baseUrl') + '/u/' + pv.viewer().username() }>
-                    {avatar(pv.viewer(), {className: 'lastUser-avatar'})}
-                    <div>
-                        {username(pv.viewer())}
-                        <span className="lastUser-visited">{humanTime(pv.visitedAt())}</span>
-                    </div>
-                </a>
-            );
-        });
+        var views = this.user.profileViews();
+
+        if(views !== false)
+        {
+            if(views.length >= 5) {
+                views = views.slice(0, 5);
+            }
+    
+            views.forEach(pv => {
+                lastViewed.add('lastUser-' + pv.viewer().id(),
+                    <a href={app.forum.attribute('baseUrl') + '/u/' + pv.viewer().username() }>
+                        {avatar(pv.viewer(), {className: 'lastUser-avatar'})}
+                        <div>
+                            {username(pv.viewer())}
+                            <span className="lastUser-visited">{humanTime(pv.visitedAt())}</span>
+                        </div>
+                    </a>
+                );
+            });
+        }
 
         items.add('lastViewedUsers', FieldSet.component({
             label: app.translator.trans('flarum_profile_views.forum.user.title_last_viewers'),

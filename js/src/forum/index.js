@@ -44,7 +44,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
                         {avatar(pv.viewer(), {className: 'lastUser-avatar'})}
                         <div>
                             {username(pv.viewer())}
-                            <span className="lastUser-visited">{humanTime(pv.visitedAt())}</span>
+                            <span className="lastUser-visited" title={pv.visitedAt().toLocaleString()}>{humanTime(pv.visitedAt())}</span>
                         </div>
                     </a>
                 );

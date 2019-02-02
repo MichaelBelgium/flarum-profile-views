@@ -18,11 +18,13 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
 
+        const count = user.profileViews() === false ? 0 : user.profileViews().length;
+
         items.add('profile-views',(
             <span>
                 {icon('far fa-eye')}
                 {' '}
-                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: '' + user.profileViews().length})}
+                {app.translator.trans('flarum_profile_views.forum.user.views_count_text', {viewcount: '' + count})}
             </span>
         ));
     });

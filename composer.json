@@ -30,5 +30,11 @@
         "color": "#fff"
       }
     }
+  },
+  "suggest": {
+    "rooaaar/lang-french-extended": "Includes French translation for this extension",
+    "michaelbelgium/flarum-dutch": "Includes Dutch translation for this extension",
+    "csineneo/lang-traditional-chinese": "Includes Chinese translation for this extension",
+    "darkfoxdeveloper/flarum-ext-spanish": "Includes Spanish translation for this extension"
   }
 }

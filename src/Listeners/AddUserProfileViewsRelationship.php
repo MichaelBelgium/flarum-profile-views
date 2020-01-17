@@ -30,12 +30,12 @@ class AddUserProfileViewsRelationship
 	{
 		if($event->isRelationship(User::class, self::RELATIONSHIP))
 		{
-			return $event->model->hasMany(UserProfileView::class, 'viewed_user_id');
+			return $event->model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC');
 		}
 
 		if($event->isRelationship(User::class, self::RELATIONSHIP_OTHER))
 		{
-			return $event->model->hasMany(UserProfileView::class, 'viewer_id');
+			return $event->model->hasMany(UserProfileView::class, 'viewer_id')->orderBy('visited_at', 'DESC');
 		}
 	}
 

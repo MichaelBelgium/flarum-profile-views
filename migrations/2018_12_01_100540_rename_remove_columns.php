@@ -15,6 +15,10 @@ return [
     },
 
     'down' => function (Builder $schema) {
+        $schema->table('users', function (Blueprint $table) {
+            $table->addColumn('integer', 'views');
+        });
+
         $schema->table('user_profile_views', function (Blueprint $table) {
             $table->renameColumn('viewed_user_id', 'user_id');
         });

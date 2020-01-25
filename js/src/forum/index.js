@@ -43,7 +43,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
             views.forEach(pv => {
                 lastViewed.add('lastUser-' + pv.viewer().id(),
                     <a href={app.forum.attribute('baseUrl') + '/u/' + pv.viewer().username() }>
-                        {avatar(pv.viewer(), {className: 'lastUser-avatar'})}
+                        {avatar(pv.viewer())}
                         <div>
                             {username(pv.viewer())}
                             <span className="lastUser-visited" title={pv.visitedAt().toLocaleString()}>{humanTime(pv.visitedAt())}</span>

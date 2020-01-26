@@ -14,16 +14,20 @@ class CreateUserProfileViewController implements RequestHandlerInterface
 {
     public function handle(Request $request): Response
     {
-        $viewedUserId = array_get($request->getParsedBody(), 'viewedUser');
-        $viewerId = array_get($request->getParsedBody(), 'viewer');
-        $viewedUser = User::find($viewedUserId);
+        $userId = array_get($request->getParsedBody(), 'viewedUser');
+        $visitor = array_get($request->getParsedBody(), 'viewer');
 
-        $profileView = $viewedUser->profileViews()->where('viewer_id', $viewerId)->first();
+        if($userId == $visitor) return new JsonResponse(['error' => 'Visitor is the same as viewed user']);
+
+        $user = User::find($userId);
+        $profileView = $user->profileViews()->where('viewer_id', $visitor)->first();
 
         if(is_null($profileView)) {
             $profileView = new UserProfileView();
-            $profileView->viewedUser()->associate($viewedUser);
-            $profileView->viewer()->associate(User::find($viewerId));
+            $profileView->viewedUser()->associate($user);
+            if($visitor !== null) {
+                $profileView->viewer()->associate(User::find($visitor));
+            }
         }
 
         $profileView->visited_at = Carbon::now();

@@ -24,7 +24,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
             <span>
                 {icon('far fa-eye')}
                 {' '}
-                {app.translator.transChoice('flarum_profile_views.forum.user.views_count_text', count, {viewcount: '' + count})}
+                {app.translator.transChoice('michaelbelgium-flarum-profile-views.forum.user.view_count_text', count, {viewcount: '' + count})}
             </span>
         ));
     });
@@ -54,7 +54,7 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
         }
 
         items.add('lastViewedUsers', FieldSet.component({
-            label: app.translator.trans('flarum_profile_views.forum.user.title_last_viewers'),
+            label: app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.last_viewers_heading'),
             className: 'LastUsers',
             children: lastViewed.toArray()
         }));

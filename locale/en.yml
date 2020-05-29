@@ -6,3 +6,4 @@ michaelbelgium-flarum-profile-views:
   admin:
     settings:
       title: 'Profileviews settings'
+      track_guests_label: 'Track guests'

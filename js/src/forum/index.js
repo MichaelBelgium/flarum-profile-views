@@ -14,6 +14,7 @@ import ProfileView from '../ProfileView';
 app.initializers.add('michaelbelgium-profile-views', function() {
     app.store.models.userprofileview = ProfileView;//".userprofileview" = serializer type "userprofileview"
     User.prototype.profileViews = Model.hasMany('profileViews');//comes from AddUserProfileViewsRelationship::RELATIONSHIP = php model relationship method
+    User.prototype.latestProfileViews = Model.hasMany('latestProfileViews');
 
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
@@ -32,7 +33,7 @@ app.initializers.add('michaelbelgium-profile-views', function() {
     extend(UserPage.prototype, 'sidebarItems', function(items) {
         const lastViewed = new ItemList();
 
-        let views = this.user.profileViews();
+        let views = this.user.latestProfileViews();
 
         $.each(views, function(i, pv) {
             const userName = pv.viewer() === false ? 'Guest' : ucfirst(pv.viewer().username());

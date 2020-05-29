@@ -29,6 +29,8 @@ return [
 
     (new Model(User::class))->relationship(AddUserProfileViewsRelationship::RELATIONSHIP, function(AbstractModel $model) {
         return $model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC');
+    })->relationship(AddUserProfileViewsRelationship::RELATIONSHIP_LATEST, function (AbstractModel $model) use ($settings) {
+        return $model->{AddUserProfileViewsRelationship::RELATIONSHIP}()->limit($settings->get('michaelbelgium-profileviews.max_listcount'));
     }),
 
     function (Dispatcher $events) {

@@ -10,7 +10,6 @@ use Michaelbelgium\Profileviews\Serializers\UserProfileViewSerializer;
 class AddUserProfileViewsRelationship
 {
 	const RELATIONSHIP = "profileViews"; //$user->profileViews()
-	const RELATIONSHIP_OTHER = "viewedProfiles"; //$user->viewedProfiles()
 
     /**
      * @param Dispatcher $events
@@ -29,11 +28,6 @@ class AddUserProfileViewsRelationship
 	{
 		if ($event->isRelationship(UserSerializer::class, self::RELATIONSHIP)) {
 			return $event->serializer->hasMany($event->model, UserProfileViewSerializer::class, self::RELATIONSHIP);
-		}
-
-		//todo test:
-		if ($event->isRelationship(UserSerializer::class, self::RELATIONSHIP_OTHER)) {
-			return $event->serializer->hasMany($event->model, UserProfileViewSerializer::class, self::RELATIONSHIP_OTHER);
 		}
 	}
 

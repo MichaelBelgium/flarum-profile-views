@@ -27,10 +27,8 @@ return [
     (new Routes('api'))
         ->post('/profileview', 'profileview.create', CreateUserProfileViewController::class),
 
-    (new Model(User::class))->relationship(AddUserProfileViewsRelationship::RELATIONSHIP, function(AbstractModel $model) use ($settings) {
-        return $model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC')->limit($settings->get('michaelbelgium-profileviews.max_listcount'));
-    })->relationship(AddUserProfileViewsRelationship::RELATIONSHIP_OTHER, function(AbstractModel $model) {
-        return $model->hasMany(UserProfileView::class, 'viewer_id')->orderBy('visited_at', 'DESC');
+    (new Model(User::class))->relationship(AddUserProfileViewsRelationship::RELATIONSHIP, function(AbstractModel $model) {
+        return $model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC');
     }),
 
     function (Dispatcher $events) {

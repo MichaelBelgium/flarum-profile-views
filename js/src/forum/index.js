@@ -4,16 +4,17 @@ import UserCard from 'flarum/components/UserCard';
 import FieldSet from 'flarum/components/FieldSet';
 import icon from 'flarum/helpers/icon';
 import avatar from 'flarum/helpers/avatar';
-import username from 'flarum/helpers/username';
+import {ucfirst} from 'flarum/utils/string';
 import Model from 'flarum/Model';
 import ItemList from 'flarum/utils/ItemList';
 import { extend } from 'flarum/extend';
 import humanTime from 'flarum/utils/humanTime';
 import ProfileView from '../ProfileView';
 
-app.initializers.add('michaelbelgium-flarum-profile-views', function() {
+app.initializers.add('michaelbelgium-profile-views', function() {
     app.store.models.userprofileview = ProfileView;//".userprofileview" = serializer type "userprofileview"
     User.prototype.profileViews = Model.hasMany('profileViews');//comes from AddUserProfileViewsRelationship::RELATIONSHIP = php model relationship method
+    User.prototype.latestProfileViews = Model.hasMany('latestProfileViews');
 
     extend(UserCard.prototype, 'infoItems', function(items) {
         const user = this.props.user;
@@ -32,26 +33,26 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     extend(UserPage.prototype, 'sidebarItems', function(items) {
         const lastViewed = new ItemList();
 
-        var views = this.user.profileViews();
+        let views = this.user.latestProfileViews();
 
-        if(views !== false)
-        {
-            if(views.length >= 5) {
-                views = views.slice(0, 5);
+        $.each(views, function(i, pv) {
+            const userName = pv.viewer() === false ? 'Guest' : ucfirst(pv.viewer().username());
+
+            let item = 
+                <div className="item-lastUser-content">
+                    {avatar(pv.viewer() === false ? null : pv.viewer())}
+                    <div>
+                        {userName}
+                        <span className="lastUser-visited" title={pv.visitedAt().toLocaleString()}>{humanTime(pv.visitedAt())}</span>
+                    </div>
+                </div>;
+
+            if(pv.viewer()) {
+                item = <a href={app.forum.attribute('baseUrl') + '/u/' + userName}>{item}</a>;
             }
-    
-            views.forEach(pv => {
-                lastViewed.add('lastUser-' + pv.viewer().id(),
-                    <a href={app.forum.attribute('baseUrl') + '/u/' + pv.viewer().username() }>
-                        {avatar(pv.viewer())}
-                        <div>
-                            {username(pv.viewer())}
-                            <span className="lastUser-visited" title={pv.visitedAt().toLocaleString()}>{humanTime(pv.visitedAt())}</span>
-                        </div>
-                    </a>
-                );
-            });
-        }
+
+            lastViewed.add('lastUser-' + i, item);
+        });
 
         items.add('lastViewedUsers', FieldSet.component({
             label: app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.last_viewers_heading'),
@@ -61,16 +62,13 @@ app.initializers.add('michaelbelgium-flarum-profile-views', function() {
     });
 
     extend(UserPage.prototype, 'show', function() {
-        if(typeof app.session.user !== 'undefined' && app.session.user.id() !== this.user.id())
-        {
-            app.request({
-                method: 'POST',
-                url: app.forum.attribute('apiUrl') + '/profileview',
-                data: { 
-                    viewer: app.session.user.id(),
-                    viewedUser: this.user.id()
-                }
-            });
-        }
+        app.request({
+            method: 'POST',
+            url: app.forum.attribute('apiUrl') + '/profileview',
+            data: { 
+                viewer: typeof app.session.user === 'undefined' ? null : app.session.user.id(),
+                viewedUser: this.user.id()
+            }
+        });
     });
 });

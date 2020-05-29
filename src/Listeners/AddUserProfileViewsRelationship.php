@@ -10,7 +10,7 @@ use Michaelbelgium\Profileviews\Serializers\UserProfileViewSerializer;
 class AddUserProfileViewsRelationship
 {
 	const RELATIONSHIP = "profileViews"; //$user->profileViews()
-	const RELATIONSHIP_OTHER = "viewedProfiles"; //$user->viewedProfiles()
+	const RELATIONSHIP_LATEST = "latestProfileViews";
 
     /**
      * @param Dispatcher $events
@@ -31,9 +31,8 @@ class AddUserProfileViewsRelationship
 			return $event->serializer->hasMany($event->model, UserProfileViewSerializer::class, self::RELATIONSHIP);
 		}
 
-		//todo test:
-		if ($event->isRelationship(UserSerializer::class, self::RELATIONSHIP_OTHER)) {
-			return $event->serializer->hasMany($event->model, UserProfileViewSerializer::class, self::RELATIONSHIP_OTHER);
+		if ($event->isRelationship(UserSerializer::class, self::RELATIONSHIP_LATEST)) {
+			return $event->serializer->hasMany($event->model, UserProfileViewSerializer::class, self::RELATIONSHIP_LATEST);
 		}
 	}
 
@@ -43,6 +42,6 @@ class AddUserProfileViewsRelationship
 	public function includeTagsRelationship(WillGetData $event)
 	{
 		if($event->controller->serializer == UserSerializer::class)
-			$event->addInclude([self::RELATIONSHIP, self::RELATIONSHIP.'.viewer', self::RELATIONSHIP.'.viewedUser']);//".x" comes from model relationship UserProfileView
+			$event->addInclude([self::RELATIONSHIP, self::RELATIONSHIP_LATEST, self::RELATIONSHIP_LATEST.'.viewer', self::RELATIONSHIP_LATEST.'.viewedUser']);//".x" comes from model relationship UserProfileView
 	}
 }

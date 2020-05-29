@@ -8,13 +8,19 @@ use Flarum\Extend\Locales;
 use Flarum\Extend\Frontend;
 use Flarum\Extend\Model;
 use Flarum\Extend\Routes;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Michaelbelgium\Profileviews\Models\UserProfileView;
+
+$settings = app(SettingsRepositoryInterface::class);
 
 return [
     (new Frontend('forum'))
         ->js(__DIR__. '/js/dist/forum.js')
         ->css(__DIR__. '/less/extension.less'),
+
+    (new Frontend('admin'))
+        ->js(__DIR__ . '/js/dist/admin.js'),
 
     new Locales(__DIR__ . '/locale'),
 
@@ -23,8 +29,8 @@ return [
 
     (new Model(User::class))->relationship(AddUserProfileViewsRelationship::RELATIONSHIP, function(AbstractModel $model) {
         return $model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC');
-    })->relationship(AddUserProfileViewsRelationship::RELATIONSHIP_OTHER, function(AbstractModel $model) {
-        return $model->hasMany(UserProfileView::class, 'viewer_id')->orderBy('visited_at', 'DESC');
+    })->relationship(AddUserProfileViewsRelationship::RELATIONSHIP_LATEST, function (AbstractModel $model) use ($settings) {
+        return $model->{AddUserProfileViewsRelationship::RELATIONSHIP}()->limit($settings->get('michaelbelgium-profileviews.max_listcount'));
     }),
 
     function (Dispatcher $events) {

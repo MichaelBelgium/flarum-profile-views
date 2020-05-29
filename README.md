@@ -27,3 +27,5 @@ If you would like to translate this extension to your language, make a PR in the
 ![image](http://puu.sh/yxd7o.png)
 
 ![image](http://puu.sh/CCJvo.png)
+
+![image](https://i.imgur.com/RSsJYjT.png)

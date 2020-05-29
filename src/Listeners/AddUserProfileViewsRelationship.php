@@ -3,12 +3,8 @@ namespace Michaelbelgium\Profileviews\Listeners;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Event\GetApiRelationship;
-use Flarum\Event\GetModelRelationship;
-use Flarum\User\User;
 use Flarum\Api\Event\WillGetData;
 use Flarum\Api\Serializer\UserSerializer;
-use Flarum\Api\Controller\ShowUserController;
-use Michaelbelgium\Profileviews\Models\UserProfileView;
 use Michaelbelgium\Profileviews\Serializers\UserProfileViewSerializer;
 
 class AddUserProfileViewsRelationship
@@ -22,21 +18,7 @@ class AddUserProfileViewsRelationship
     public function subscribe(Dispatcher $events)
     {
 		$events->listen(WillGetData::class, [$this, 'includeTagsRelationship']);
-		$events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
 		$events->listen(GetApiRelationship::class, [$this, 'getApiRelationship']);
-	}
-	
-	public function getModelRelationship(GetModelRelationship $event)
-	{
-		if($event->isRelationship(User::class, self::RELATIONSHIP))
-		{
-			return $event->model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC');
-		}
-
-		if($event->isRelationship(User::class, self::RELATIONSHIP_OTHER))
-		{
-			return $event->model->hasMany(UserProfileView::class, 'viewer_id')->orderBy('visited_at', 'DESC');
-		}
 	}
 
 	/**

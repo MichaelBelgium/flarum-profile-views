@@ -11,7 +11,7 @@ import { extend } from 'flarum/extend';
 import humanTime from 'flarum/utils/humanTime';
 import ProfileView from '../ProfileView';
 
-app.initializers.add('michaelbelgium-flarum-profile-views', function() {
+app.initializers.add('michaelbelgium-profile-views', function() {
     app.store.models.userprofileview = ProfileView;//".userprofileview" = serializer type "userprofileview"
     User.prototype.profileViews = Model.hasMany('profileViews');//comes from AddUserProfileViewsRelationship::RELATIONSHIP = php model relationship method
 

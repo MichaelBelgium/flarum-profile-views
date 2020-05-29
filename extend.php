@@ -16,6 +16,9 @@ return [
         ->js(__DIR__. '/js/dist/forum.js')
         ->css(__DIR__. '/less/extension.less'),
 
+    (new Frontend('admin'))
+        ->js(__DIR__ . '/js/dist/admin.js'),
+
     new Locales(__DIR__ . '/locale'),
 
     (new Routes('api'))

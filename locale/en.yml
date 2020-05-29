@@ -3,3 +3,6 @@ michaelbelgium-flarum-profile-views:
     user:
       last_viewers_heading: Last visitors
       view_count_text: 'viewed {viewcount} time|viewed {viewcount} times'
+  admin:
+    settings:
+      title: 'Profileviews settings'

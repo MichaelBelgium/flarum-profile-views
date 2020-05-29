@@ -8,8 +8,11 @@ use Flarum\Extend\Locales;
 use Flarum\Extend\Frontend;
 use Flarum\Extend\Model;
 use Flarum\Extend\Routes;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Michaelbelgium\Profileviews\Models\UserProfileView;
+
+$settings = app(SettingsRepositoryInterface::class);
 
 return [
     (new Frontend('forum'))
@@ -24,8 +27,8 @@ return [
     (new Routes('api'))
         ->post('/profileview', 'profileview.create', CreateUserProfileViewController::class),
 
-    (new Model(User::class))->relationship(AddUserProfileViewsRelationship::RELATIONSHIP, function(AbstractModel $model) {
-        return $model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC');
+    (new Model(User::class))->relationship(AddUserProfileViewsRelationship::RELATIONSHIP, function(AbstractModel $model) use ($settings) {
+        return $model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC')->limit($settings->get('michaelbelgium-profileviews.max_listcount'));
     })->relationship(AddUserProfileViewsRelationship::RELATIONSHIP_OTHER, function(AbstractModel $model) {
         return $model->hasMany(UserProfileView::class, 'viewer_id')->orderBy('visited_at', 'DESC');
     }),

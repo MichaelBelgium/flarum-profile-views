@@ -34,10 +34,6 @@ app.initializers.add('michaelbelgium-profile-views', function() {
 
         let views = this.user.profileViews();
 
-        if(views.length >= 5) {
-            views = views.slice(0, 5);
-        }
-
         $.each(views, function(i, pv) {
             const userName = pv.viewer() === false ? 'Guest' : ucfirst(pv.viewer().username());
 

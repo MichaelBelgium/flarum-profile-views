@@ -16,17 +16,13 @@ export default class ProfileviewSettingsModal extends SettingsModal {
                 {Switch.component({
                     state: this.setting('michaelbelgium-profileviews.track_guests')() == 1,
                     onchange: this.setting('michaelbelgium-profileviews.track_guests'),
-                    children: app.translator.trans('michaelbelgium-flarum-profile-views.admin.settings.track_guests_label')
-                })}
+                }, app.translator.trans('michaelbelgium-flarum-profile-views.admin.settings.track_guests_label'))}
             </div>,
 
-            m('.Form-group', [
-                m('label', app.translator.trans('michaelbelgium-flarum-profile-views.admin.settings.max_viewcount_label')),
-                m('input[type=number].FormControl', {
-                    bidi: this.setting('michaelbelgium-profileviews.max_listcount'),
-                    min: 1
-                })
-            ])
+            <div className='Form-group'>
+                <label>{app.translator.trans('michaelbelgium-flarum-profile-views.admin.settings.max_viewcount_label')}</label>
+                <input type='number' className='FormControl' bidi={this.setting('michaelbelgium-profileviews.max_listcount')} min='1'></input>
+            </div>
         ];
     }
 }

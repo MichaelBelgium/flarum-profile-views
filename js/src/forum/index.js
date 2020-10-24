@@ -17,7 +17,7 @@ app.initializers.add('michaelbelgium-profile-views', function() {
     User.prototype.latestProfileViews = Model.hasMany('latestProfileViews');
 
     extend(UserCard.prototype, 'infoItems', function(items) {
-        const user = this.props.user;
+        const user = this.attrs.user;
 
         const count = user.profileViews() === false ? 0 : user.profileViews().length;
 
@@ -56,16 +56,16 @@ app.initializers.add('michaelbelgium-profile-views', function() {
 
         items.add('lastViewedUsers', FieldSet.component({
             label: app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.last_viewers_heading'),
-            className: 'LastUsers',
-            children: lastViewed.toArray()
-        }));
+            className: 'LastUsers'
+            }, lastViewed.toArray())
+        );
     });
 
     extend(UserPage.prototype, 'show', function() {
         app.request({
             method: 'POST',
             url: app.forum.attribute('apiUrl') + '/profileview',
-            data: { 
+            body: { 
                 viewer: typeof app.session.user === 'undefined' ? null : app.session.user.id(),
                 viewedUser: this.user.id()
             }

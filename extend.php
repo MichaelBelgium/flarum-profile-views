@@ -17,8 +17,8 @@ use Flarum\User\User;
 use Michaelbelgium\Profileviews\Models\UserProfileView;
 use Michaelbelgium\Profileviews\Serializers\UserProfileViewSerializer;
 
-const RELATIONSHIP = "profileViews"; //$user->profileViews()
-const RELATIONSHIP_LATEST = "latestProfileViews";
+const PV_RELATIONSHIP = "profileViews"; //$user->profileViews()
+const PV_RELATIONSHIP_LATEST = "latestProfileViews";
 
 $settings = app(SettingsRepositoryInterface::class);
 
@@ -35,17 +35,17 @@ return [
     (new Routes('api'))
         ->post('/profileview', 'profileview.create', CreateUserProfileViewController::class),
 
-    (new Model(User::class))->relationship(RELATIONSHIP, function(AbstractModel $model) {
+    (new Model(User::class))->relationship(PV_RELATIONSHIP, function(AbstractModel $model) {
         return $model->hasMany(UserProfileView::class, 'viewed_user_id')->orderBy('visited_at', 'DESC');
-    })->relationship(RELATIONSHIP_LATEST, function (AbstractModel $model) use ($settings) {
-        return $model->{RELATIONSHIP}()->limit($settings->get('michaelbelgium-profileviews.max_listcount'));
+    })->relationship(PV_RELATIONSHIP_LATEST, function (AbstractModel $model) use ($settings) {
+        return $model->{PV_RELATIONSHIP}()->limit($settings->get('michaelbelgium-profileviews.max_listcount'));
     }),
 
     (new ApiSerializer(UserSerializer::class))
-        ->hasMany(RELATIONSHIP, UserProfileViewSerializer::class)
-        ->hasMany(RELATIONSHIP_LATEST, UserProfileViewSerializer::class),
+        ->hasMany(PV_RELATIONSHIP, UserProfileViewSerializer::class)
+        ->hasMany(PV_RELATIONSHIP_LATEST, UserProfileViewSerializer::class),
 
     (new ApiController(ShowUserController::class))
         //".x" comes from model relationship UserProfileView
-        ->addInclude([RELATIONSHIP, RELATIONSHIP_LATEST, RELATIONSHIP_LATEST.'.viewer', RELATIONSHIP_LATEST.'.viewedUser']),
+        ->addInclude([PV_RELATIONSHIP, PV_RELATIONSHIP_LATEST, PV_RELATIONSHIP_LATEST.'.viewer', PV_RELATIONSHIP_LATEST.'.viewedUser']),
 ];

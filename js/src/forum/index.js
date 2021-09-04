@@ -36,7 +36,7 @@ app.initializers.add('michaelbelgium-profile-views', function() {
         let views = this.user.latestProfileViews();
 
         $.each(views, function(i, pv) {
-            const userName = pv.viewer() === false ? 'Guest' : ucfirst(pv.viewer().username());
+            const userName = pv.viewer() === false ? app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.viewlist.guest') : ucfirst(pv.viewer().username());
 
             let item = 
                 <div className="item-lastUser-content">
@@ -55,7 +55,7 @@ app.initializers.add('michaelbelgium-profile-views', function() {
         });
 
         items.add('lastViewedUsers', FieldSet.component({
-            label: app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.last_viewers_heading'),
+            label: app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.viewlist.title'),
             className: 'LastUsers'
             }, lastViewed.toArray())
         );

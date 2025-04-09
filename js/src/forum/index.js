@@ -4,7 +4,7 @@ import UserCard from 'flarum/components/UserCard';
 import FieldSet from 'flarum/components/FieldSet';
 import icon from 'flarum/helpers/icon';
 import avatar from 'flarum/helpers/avatar';
-import {ucfirst} from 'flarum/utils/string';
+import username from 'flarum/common/helpers/username';
 import Model from 'flarum/Model';
 import ItemList from 'flarum/utils/ItemList';
 import { extend } from 'flarum/extend';
@@ -36,7 +36,7 @@ app.initializers.add('michaelbelgium-profile-views', function() {
         let views = this.user.latestProfileViews();
 
         $.each(views, function(i, pv) {
-            const userName = pv.viewer() === false ? app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.viewlist.guest') : ucfirst(pv.viewer().username());
+            const userName = pv.viewer() === false ? app.translator.trans('michaelbelgium-flarum-profile-views.forum.user.viewlist.guest') : username(pv.viewer());
 
             let item = 
                 <div className="item-lastUser-content">
@@ -48,7 +48,7 @@ app.initializers.add('michaelbelgium-profile-views', function() {
                 </div>;
 
             if(pv.viewer()) {
-                item = <a href={app.forum.attribute('baseUrl') + '/u/' + userName}>{item}</a>;
+                item = <a href={app.route.user(pv.viewer())}>{item}</a>;
             }
 
             lastViewed.add('lastUser-' + i, item);

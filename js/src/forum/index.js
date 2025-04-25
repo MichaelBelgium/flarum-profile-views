@@ -65,8 +65,7 @@ app.initializers.add('michaelbelgium-profile-views', function() {
         app.request({
             method: 'POST',
             url: app.forum.attribute('apiUrl') + '/profileview',
-            body: { 
-                viewer: app.session.user?.id() ?? null,
+            body: {
                 viewedUser: this.user.id()
             }
         });

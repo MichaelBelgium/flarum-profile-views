@@ -22,24 +22,26 @@ class CreateUserProfileViewController implements RequestHandlerInterface
 
     public function handle(Request $request): Response
     {
-        $userId = Arr::get($request->getParsedBody(), 'viewedUser');
-        $visitor = Arr::get($request->getParsedBody(), 'viewer');
+        $userId = (int)Arr::get($request->getParsedBody(), 'viewedUser');
+        /** @var User $visitor */
+        $visitor = $request->getAttribute('actor');
 
-        if(!$this->settings->get('michaelbelgium-profileviews.track_guests', false) && $visitor === null) {
-            return new JsonResponse(['error' => 'Tracking guests not been set']);
-        }
+        if(!$this->settings->get('michaelbelgium-profileviews.track_guests', false) && $visitor->isGuest())
+            return new JsonResponse(['error' => 'Tracking guests not been enabled']);
 
-        if($userId == $visitor) return new JsonResponse(['error' => 'Visitor is the same as viewed user']);
+        if($userId == $visitor->id)
+            return new JsonResponse(['error' => 'Visitor is the same as viewed user']);
 
         $user = User::find($userId);
-        $profileView = $user->profileViews()->where('viewer_id', $visitor)->first();
+        $profileView = $user->profileViews()->where('viewer_id', $visitor->id)->first();
 
-        if(is_null($profileView)) {
+        if(is_null($profileView))
+        {
             $profileView = new UserProfileView();
             $profileView->viewedUser()->associate($user);
-            if($visitor !== null) {
-                $profileView->viewer()->associate(User::find($visitor));
-            }
+
+            if(!$visitor->isGuest())
+                $profileView->viewer()->associate($visitor);
         }
 
         $profileView->visited_at = Carbon::now();

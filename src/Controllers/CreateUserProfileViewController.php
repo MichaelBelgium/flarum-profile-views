@@ -46,7 +46,7 @@ class CreateUserProfileViewController implements RequestHandlerInterface
 
         $profileView->visited_at = Carbon::now();
         $profileView->save();
-        
-        return new JsonResponse($profileView->toArray());
+
+        return new JsonResponse(['visited_at' => $profileView->visited_at]);
     }
 }

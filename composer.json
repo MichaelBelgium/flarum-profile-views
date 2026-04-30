@@ -1,45 +1,46 @@
 {
-  "name": "michaelbelgium/flarum-profile-views",
-  "description": "Add views to profiles",
-  "type": "flarum-extension",
-  "require": {
-    "flarum/core": "^1.0"
-  },
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Michael V.",
-      "email": "michael@michaelbelgium.me"
+    "name": "michaelbelgium/flarum-profile-views",
+    "description": "Add views to profiles",
+    "type": "flarum-extension",
+    "require": {
+        "php": "^8.4",
+        "flarum/core": "^2.0.0-rc.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael V.",
+            "email": "michael@michaelbelgium.me"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/MichaelBelgium/flarum-profile-views/issues",
+        "source": "https://github.com/MichaelBelgium/flarum-profile-views",
+        "forum": "https://discuss.flarum.org/d/7596"
+    },
+    "autoload": {
+        "psr-4": {
+            "Michaelbelgium\\Profileviews\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Profile views",
+            "icon": {
+                "name": "far fa-eye",
+                "backgroundColor": "#90C3D4",
+                "color": "#fff"
+            }
+        }
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/MichaelBelgium"
+        }
+    ],
+    "suggest": {
+        "flarum-lang/french": "Includes French translation for this extension",
+        "flarum-lang/dutch": "Includes Dutch translation for this extension"
     }
-  ],
-  "support": {
-    "issues": "https://github.com/MichaelBelgium/flarum-profile-views/issues",
-    "source": "https://github.com/MichaelBelgium/flarum-profile-views",
-    "forum": "https://discuss.flarum.org/d/7596"
-  },
-  "autoload": {
-    "psr-4": {
-      "Michaelbelgium\\Profileviews\\": "src/"
-    }
-  },
-  "extra": {
-    "flarum-extension": {
-      "title": "Profile views",
-      "icon": {
-        "name": "far fa-eye",
-        "backgroundColor": "#90C3D4",
-        "color": "#fff"
-      }
-    }
-  },
-  "funding": [
-    {
-      "type": "github",
-      "url": "https://github.com/sponsors/MichaelBelgium"
-    }
-  ],
-  "suggest": {
-    "flarum-lang/french": "Includes French translation for this extension",
-    "flarum-lang/dutch": "Includes Dutch translation for this extension"
-  }
 }

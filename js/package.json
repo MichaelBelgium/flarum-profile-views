@@ -2,9 +2,9 @@
 	"private": true,
 	"name": "@michaelbelgium/flarum-profile-views",
 	"dependencies": {
-		"flarum-webpack-config": "^1.0.0",
-		"webpack": "^4.46.0",
-		"webpack-cli": "^3.3.12"
+		"flarum-webpack-config": "^3.0.0",
+		"webpack": "^5.0.0",
+		"webpack-cli": "^4.0.0"
 	},
 	"scripts": {
 		"dev": "webpack --mode development --watch",

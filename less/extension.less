@@ -1,21 +1,16 @@
-.FieldSet.LastUsers {
-	.FieldSet-items a {
-		margin-bottom: .5em;
+.FieldSet.LastUsers .item-lastUser-content {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: .5em;
 
-		div.item-lastUser-content {
-			display: flex;
-			justify-content: space-between;
+	div {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: flex-end;
 
-			div {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				align-items: flex-end;
-	
-				span.lastUser-visited {
-					font-size: .8em;
-				}
-			}
+		span.lastUser-visited {
+			font-size: .8em;
 		}
 	}
 }

@@ -8,7 +8,10 @@ use Flarum\User\User;
 class UserProfileView extends AbstractModel
 {
 	protected $table = 'user_profile_views';
-	protected $dates = ['visited_at'];
+
+    protected $casts = [
+        'visited_at' => 'datetime',
+    ];
 
 	public function viewedUser()
 	{

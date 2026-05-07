@@ -10,7 +10,6 @@ use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Michaelbelgium\Profileviews\Models\UserProfileView;
 use Tobyz\JsonApiServer\Context as OriginalContext;
-use Tobyz\JsonApiServer\Exception\UnprocessableEntityException;
 
 /**
  * @extends Resource\AbstractDatabaseResource<UserProfileView>
@@ -62,12 +61,8 @@ class UserProfileViewResource extends Resource\AbstractDatabaseResource
         $actor = RequestUtil::getActor($context->request);
 
         if (!$actor->isGuest() && $model->viewed_user_id == $actor->id) {
-            throw new UnprocessableEntityException([
-                [
-                    'source' => ['pointer' => '/data/relationships/viewedUser/data'],
-                    'detail' => 'Visitor is the same as viewed user.',
-                ],
-            ]);
+            // Visitor is the same as viewed user.
+            return null;
         }
 
         $existingView = UserProfileView::query()

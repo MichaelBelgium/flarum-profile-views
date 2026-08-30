@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Michaelbelgium\Profileviews\Models\UserProfileView;
@@ -62,7 +63,9 @@ class UserProfileViewResource extends Resource\AbstractDatabaseResource
 
         if (!$actor->isGuest() && $model->viewed_user_id == $actor->id) {
             // Visitor is the same as viewed user.
-            return null;
+            throw new ValidationException([
+                'viewedUser' => 'You cannot view your own profile.',
+            ]);
         }
 
         $existingView = UserProfileView::query()

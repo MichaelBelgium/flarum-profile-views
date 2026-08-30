@@ -55,6 +55,15 @@ export default function extendUserPage() {
             relationships: {
                 viewedUser: this.user,
             },
+        }, {
+            errorHandler: (error) => {
+                // Prevent showing the UI an error notification
+                if (error.status === 422 || error.status === 401) {
+                    return;
+                }
+
+                return false;
+            },
         });
     });
 }
